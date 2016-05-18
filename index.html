@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="GBK">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+	<title>Phaser</title>
+    <style>
+        *{margin:0;padding:0}
+        html, body
+        {
+            -webkit-text-size-adjust:none;
+            overflow: hidden;
+            height:100%;
+            margin: 0px 0px 1px 0px;
+            background-color: #000;
+        }
+        #cover{
+            position: absolute;
+            left:0;
+            top:0;
+            right:0;
+            bottom:0;
+            z-index: 2;
+            background-color: rgba(0,0,0,.8);
+            display: none;
+        }
+        #login{
+            width:13.85rem;
+            height:12.825rem;
+            background-image:url('assets/sub_box.png');
+            background-size: 13.85rem 12.825rem;
+            position: absolute;
+            left:50%;
+            top:50%;
+            margin-left:-6.925rem;
+            margin-top:-8rem;
+        }
+        #login input.ipt{
+            width:10.2rem;
+            height:1.5rem;
+            position: absolute;
+            border: 2px solid #ffffff;
+            color:#ffffff;
+            font-size:.7rem;
+            line-height: 1.3rem;
+            text-indent: .2rem;
+            background-color:#000000
+        }
+        input::-webkit-input-placeholder {
+		    color: #ffffff;
+		}
+        #name{
+            left:2rem;
+            top:4.5rem;
+        }
+        #phone{
+            left:2rem;
+            top:7rem;
+        }
+        button#subBtn{
+            width:8.8rem;
+            height:1.925rem;
+            background-image:url('assets/sub_btn.png');
+            background-color: transparent;
+            background-size: 8.8rem 1.925rem;
+            position: absolute;
+            left:3.5rem;
+            top:9.5rem;
+            border: none;
+            font-size:.7rem;
+            color:#fff;
+        }
+    </style>
+    <script>
+    	(function(doc,win){var docEl=doc.documentElement,resizeEvt='orientationchange'in window?'orientationchange':'resize',recalc=function(){var clientWidth=docEl.clientWidth;if(!clientWidth)return;docEl.style.fontSize=20*(clientWidth/375)+'px'};if(!doc.addEventListener)return;win.addEventListener(resizeEvt,recalc,false);doc.addEventListener('DOMContentLoaded',recalc,false)})(document,window);
+    </script>
+    <script src="phaser.2.4.7.min.js"></script>
+    <script src="Boot.js"></script>
+    <script src="Preloader.js"></script>
+    <script src="UI.js"></script>
+    <script src="MainMenu.js"></script>
+    <script src="Game.js"></script>
+</head>
+<body>
+	<div id="game"></div>
+	<div id="cover">
+        <div id="login">
+            <div class="frm"><input type="text" id="name" class="ipt" placeholder="姓名"/></div>
+            <div class="frm"><input type="text" id="phone" class="ipt" placeholder="电话"/></div>
+            <button id="subBtn"></button>
+        </div>
+    </div>
+<script>
+
+	var config = {
+		baseURL : 'assets/', //游戏资源路径
+		
+		change : 50 //中奖概率
+	}
+	
+	var user = {
+		ispoil : false, //是否已经中奖
+		poil : '小米手环', //中奖的奖品
+	}
+
+	document.getElementById('game').style.height = document.body.clientHeight + 'px';
+    var game = new Phaser.Game(784, 1260, Phaser.CANVAS, 'game');
+	    game.state.add('Boot', MyGame.Boot);
+	    game.state.add('Preloader', MyGame.Preloader);
+	    game.state.add('MainMenu', MyGame.MainMenu);
+	    game.state.add('Game', MyGame.Game);
+	    game.state.start('Boot');
+	    
+	    
+	document.getElementById('subBtn').addEventListener('touchend',function(){
+		game.state.start("Game");
+		document.getElementById('cover').style.display = 'none'
+	},false)
+</script>
+<!--<script src="inpMusic.js"></script>-->
+</body>
+</html>
